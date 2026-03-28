@@ -3,225 +3,370 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>강호수 커맨드센터</title>
+  <meta name="theme-color" content="#f2f4f6">
+  <title>강호수 성취 보드</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="header">
-    <div class="header-logo">RLK // COMMAND CENTER</div>
-    <div class="header-actions">
-      <div class="header-meta" id="todayDate"></div>
-      <div class="day-counter" id="dayCounter">D-100</div>
+  <header class="app-header">
+    <div>
+      <p class="header-kicker">PERSONAL OPERATING SYSTEM</p>
+      <h1 class="header-title">강호수 성취 보드</h1>
+    </div>
+    <div class="header-meta">
+      <div class="meta-chip">
+        <span class="meta-chip__label">오늘</span>
+        <strong id="todayDate">-</strong>
+      </div>
+      <div class="meta-chip meta-chip--blue">
+        <span class="meta-chip__label">플랜 기간</span>
+        <strong id="planRange">-</strong>
+      </div>
     </div>
   </header>
 
-  <nav class="tabs" aria-label="커맨드센터 메뉴">
-    <button class="tab active" data-tab="tasks" type="button">할일 마스터</button>
-    <button class="tab" data-tab="revenue" type="button">수익 트래커</button>
-    <button class="tab" data-tab="paths" type="button">100일 경로</button>
-    <button class="tab" data-tab="agent" type="button">AI 에이전트</button>
+  <nav class="tabs" aria-label="주요 메뉴">
+    <button class="tab active" data-tab="tasks" type="button">실행</button>
+    <button class="tab" data-tab="revenue" type="button">수익</button>
+    <button class="tab" data-tab="paths" type="button">플랜</button>
+    <button class="tab" data-tab="agent" type="button">AI 코치</button>
   </nav>
 
   <main class="main">
     <section class="panel active" id="panel-tasks">
-      <div class="progress-section">
-        <div class="progress-title">오늘 진행률</div>
-        <div class="progress-bar-wrap" aria-hidden="true">
-          <div class="progress-bar-fill" id="progressBar" style="width: 0%;"></div>
+      <section class="hero-card surface">
+        <div class="hero-copy">
+          <p class="eyebrow eyebrow-invert">100일 실행 시스템</p>
+          <h2 class="hero-title" id="heroHeadline">오늘 해야 할 일은 세 개면 충분합니다.</h2>
+          <p class="hero-body" id="heroSubline"></p>
+          <div class="hero-progress">
+            <div class="hero-progress__track" aria-hidden="true">
+              <div class="hero-progress__fill" id="executionBar" style="width: 0%;"></div>
+            </div>
+            <div class="hero-progress__meta">
+              <span id="executionLabel">오늘 실행률 0%</span>
+              <span id="focusLabel">핵심 일 0개 남음</span>
+            </div>
+          </div>
         </div>
-        <div class="progress-stats">
-          <div>완료 <span id="doneCount">0</span> / <span id="totalCount">0</span></div>
-          <div><span id="progressPct">0</span>% 완료</div>
+        <div class="hero-aside">
+          <div class="metric-pill">
+            <span class="metric-pill__label">남은 기간</span>
+            <strong id="dayCounter">D-100</strong>
+          </div>
+          <div class="metric-pill metric-pill--soft">
+            <span class="metric-pill__label">다음 큰 마감</span>
+            <strong id="nextDeadlineBadge">-</strong>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div class="section-header">
-        <span class="section-tag tag-red">Urgent</span>
-        <span class="section-title">이번 주 안에 처리, 시간 민감</span>
-      </div>
-      <div class="task-grid" id="tasks-urgent"></div>
+      <section class="summary-grid">
+        <article class="summary-card surface">
+          <span class="summary-card__label">오늘 실행</span>
+          <strong class="summary-card__value" id="summaryExecutionValue">0 / 0</strong>
+          <p class="summary-card__sub" id="summaryExecutionSub">실행률 0%</p>
+        </article>
+        <article class="summary-card surface">
+          <span class="summary-card__label">오늘 루틴</span>
+          <strong class="summary-card__value" id="summaryRoutineValue">0 / 0</strong>
+          <p class="summary-card__sub" id="summaryRoutineSub">생활 리듬 유지</p>
+        </article>
+        <article class="summary-card surface">
+          <span class="summary-card__label">남은 목표 수익</span>
+          <strong class="summary-card__value" id="summaryRevenueValue">₩0</strong>
+          <p class="summary-card__sub" id="summaryRevenueSub">하루 평균 필요 수익</p>
+        </article>
+        <article class="summary-card surface">
+          <span class="summary-card__label">다음 큰 마감</span>
+          <strong class="summary-card__value" id="summaryNextValue">정리 완료</strong>
+          <p class="summary-card__sub" id="summaryNextSub">현재 가장 가까운 일정</p>
+        </article>
+      </section>
 
-      <div class="section-header">
-        <span class="section-tag tag-orange">Short</span>
-        <span class="section-title">30일 내 현금화 가능</span>
-      </div>
-      <div class="task-grid" id="tasks-short"></div>
+      <section class="two-column">
+        <article class="surface">
+          <div class="surface-head">
+            <p class="eyebrow">Today Focus</p>
+            <h3>오늘 꼭 끝낼 3개</h3>
+          </div>
+          <div class="focus-list" id="topFocusList"></div>
+        </article>
 
-      <div class="section-header">
-        <span class="section-tag tag-yellow">Mid</span>
-        <span class="section-title">31~90일 구조 잡기</span>
-      </div>
-      <div class="task-grid" id="tasks-mid"></div>
+        <article class="surface">
+          <div class="surface-head">
+            <p class="eyebrow">Operating Rules</p>
+            <h3>운영 원칙</h3>
+          </div>
+          <ul class="rule-list">
+            <li>선금 없는 작업은 착수하지 않는다.</li>
+            <li>오늘은 핵심 일 3개만 끝낸다.</li>
+            <li>수익이 생기면 바로 기록한다.</li>
+            <li>법적 일정은 감으로 넘기지 않고 실제 날짜로 관리한다.</li>
+            <li>루틴은 하루 단위로 다시 시작한다.</li>
+          </ul>
+        </article>
+      </section>
 
-      <div class="section-header">
-        <span class="section-tag tag-blue">Long</span>
-        <span class="section-title">90일 이후 / 조건부</span>
-      </div>
-      <div class="task-grid" id="tasks-long"></div>
+      <section class="surface">
+        <div class="surface-head surface-head--split">
+          <div>
+            <p class="eyebrow">Project Tracks</p>
+            <h3>프로젝트 할 일</h3>
+          </div>
+          <p class="surface-caption">마감일은 모두 실제 날짜 기준으로 정리했습니다.</p>
+        </div>
 
-      <div class="section-header">
-        <span class="section-tag tag-gray">Legal</span>
-        <span class="section-title">법적 / 행정 추적 필수</span>
-      </div>
-      <div class="task-grid" id="tasks-legal"></div>
+        <div class="section-block">
+          <div class="section-header">
+            <span class="section-tag section-tag--red">이번 주 마감</span>
+            <span class="section-title">돈과 일정이 바로 움직이는 일</span>
+          </div>
+          <div class="task-grid" id="tasks-urgent"></div>
+        </div>
 
-      <div class="section-header">
-        <span class="section-tag tag-green">Daily</span>
-        <span class="section-title">매일 루틴</span>
-      </div>
-      <div class="task-grid" id="tasks-routine"></div>
+        <div class="section-block">
+          <div class="section-header">
+            <span class="section-tag section-tag--orange">30일 현금화</span>
+            <span class="section-title">4월 안에 계약과 수금 흐름 만들기</span>
+          </div>
+          <div class="task-grid" id="tasks-short"></div>
+        </div>
 
-      <div class="section-header">
-        <span class="section-tag tag-gray">Hold</span>
-        <span class="section-title">지금 손 떼는 것</span>
-      </div>
-      <div class="task-grid" id="tasks-hold"></div>
+        <div class="section-block">
+          <div class="section-header">
+            <span class="section-tag section-tag--blue">구조 만들기</span>
+            <span class="section-title">5월~6월에 반복 가능한 구조 만들기</span>
+          </div>
+          <div class="task-grid" id="tasks-mid"></div>
+        </div>
 
-      <button class="export-btn" id="exportBtn" type="button">노션 붙여넣기 포맷 내보내기</button>
-      <div class="notion-output" id="notionOutput"></div>
+        <div class="section-block">
+          <div class="section-header">
+            <span class="section-tag section-tag--navy">장기 과제</span>
+            <span class="section-title">조건 충족 후 이어갈 장기 프로젝트</span>
+          </div>
+          <div class="task-grid" id="tasks-long"></div>
+        </div>
+
+        <div class="section-block">
+          <div class="section-header">
+            <span class="section-tag section-tag--purple">리스크 관리</span>
+            <span class="section-title">법적 / 행정 일정은 주기적으로 추적</span>
+          </div>
+          <div class="task-grid" id="tasks-legal"></div>
+        </div>
+      </section>
+
+      <section class="surface surface-soft">
+        <div class="surface-head surface-head--split">
+          <div>
+            <p class="eyebrow">Daily Rhythm</p>
+            <h3>오늘 루틴</h3>
+          </div>
+          <p class="surface-caption" id="routineCaption">오늘 기준으로 다시 체크합니다.</p>
+        </div>
+        <div class="task-grid" id="tasks-routine"></div>
+      </section>
+
+      <section class="surface surface-muted">
+        <div class="surface-head surface-head--split">
+          <div>
+            <p class="eyebrow">Not Now</p>
+            <h3>지금 손 떼는 것</h3>
+          </div>
+          <p class="surface-caption">재검토 날짜가 올 때까지 에너지 소모를 막습니다.</p>
+        </div>
+        <div class="task-grid" id="tasks-hold"></div>
+      </section>
+
+      <section class="surface">
+        <div class="surface-head surface-head--split">
+          <div>
+            <p class="eyebrow">Export</p>
+            <h3>노션 내보내기</h3>
+          </div>
+          <button class="export-btn" id="exportBtn" type="button">노션용 텍스트 복사</button>
+        </div>
+        <div class="notion-output" id="notionOutput"></div>
+      </section>
     </section>
 
     <section class="panel" id="panel-revenue">
-      <div class="revenue-grid">
-        <article class="revenue-card">
-          <div class="revenue-card-label">누적 순수익</div>
-          <div class="revenue-card-value" id="totalRevenue">₩0</div>
-          <div class="revenue-card-sub">목표: ₩10,000,000</div>
-        </article>
-        <article class="revenue-card">
-          <div class="revenue-card-label">목표 달성률</div>
-          <div class="revenue-card-value" id="revenuePct">0%</div>
-          <div class="revenue-card-sub" id="remainRevenue">₩10,000,000 남음</div>
-        </article>
-        <article class="revenue-card">
-          <div class="revenue-card-label">일평균 필요 수익</div>
-          <div class="revenue-card-value" id="dailyNeeded">₩100,000</div>
-          <div class="revenue-card-sub" id="daysLeft">D-100 남음</div>
-        </article>
-      </div>
-
-      <div class="goal-progress">
-        <div class="progress-title">100일 목표 달성 진행률</div>
-        <div class="progress-bar-wrap goal-bar" aria-hidden="true">
-          <div class="progress-bar-fill" id="revenueBar" style="width: 0%;"></div>
+      <section class="surface revenue-hero">
+        <div class="surface-head surface-head--split">
+          <div>
+            <p class="eyebrow">Revenue System</p>
+            <h3>100일 수익 관리</h3>
+          </div>
+          <p class="surface-caption" id="revenuePlanEnd">-</p>
         </div>
-      </div>
+        <p class="revenue-hero__copy" id="revenueInsight"></p>
+        <div class="progress-track progress-track--lg" aria-hidden="true">
+          <div class="progress-fill" id="revenueBar" style="width: 0%;"></div>
+        </div>
+      </section>
 
-      <div class="input-title">수익 기록 추가</div>
-      <div class="revenue-input-row">
-        <input class="revenue-input" id="revenueDate" type="date" aria-label="수익 날짜">
-        <input class="revenue-input" id="revenueSource" placeholder="출처 (예: 안양시장건, 규복삼촌)" aria-label="수익 출처">
-        <input class="revenue-input" id="revenueAmount" type="number" placeholder="금액 (원)" aria-label="수익 금액">
-        <button class="add-btn" id="addRevenueBtn" type="button">+ 추가</button>
-      </div>
+      <section class="summary-grid">
+        <article class="summary-card surface">
+          <span class="summary-card__label">누적 순수익</span>
+          <strong class="summary-card__value" id="totalRevenue">₩0</strong>
+          <p class="summary-card__sub">목표 ₩10,000,000</p>
+        </article>
+        <article class="summary-card surface">
+          <span class="summary-card__label">목표 달성률</span>
+          <strong class="summary-card__value" id="revenuePct">0%</strong>
+          <p class="summary-card__sub" id="remainRevenue">₩10,000,000 남음</p>
+        </article>
+        <article class="summary-card surface">
+          <span class="summary-card__label">일평균 필요 수익</span>
+          <strong class="summary-card__value" id="dailyNeeded">₩100,000</strong>
+          <p class="summary-card__sub" id="daysLeft">100일 남음</p>
+        </article>
+        <article class="summary-card surface">
+          <span class="summary-card__label">다음 수익 입력일</span>
+          <strong class="summary-card__value" id="revenueDatePreview">-</strong>
+          <p class="summary-card__sub">수익이 생기면 당일 바로 기록</p>
+        </article>
+      </section>
 
-      <div class="revenue-log" id="revenueLog">
-        <div class="empty-state">수익 기록 없음. 첫 번째 수익을 기록해라.</div>
-      </div>
+      <section class="two-column two-column--wide">
+        <article class="surface">
+          <div class="surface-head">
+            <p class="eyebrow">New Entry</p>
+            <h3>수익 기록 추가</h3>
+          </div>
+          <div class="revenue-inputs">
+            <label class="field-label" for="revenueDate">날짜</label>
+            <input class="revenue-input" id="revenueDate" type="date">
+
+            <label class="field-label" for="revenueSource">출처</label>
+            <input class="revenue-input" id="revenueSource" type="text" placeholder="예: 안양시장 챗봇, 규복삼촌">
+
+            <label class="field-label" for="revenueAmount">금액</label>
+            <input class="revenue-input" id="revenueAmount" type="number" placeholder="예: 300000">
+
+            <button class="add-btn" id="addRevenueBtn" type="button">수익 추가</button>
+          </div>
+        </article>
+
+        <article class="surface">
+          <div class="surface-head">
+            <p class="eyebrow">History</p>
+            <h3>수익 로그</h3>
+          </div>
+          <div class="revenue-log" id="revenueLog"></div>
+        </article>
+      </section>
     </section>
 
     <section class="panel" id="panel-paths">
-      <div class="panel-lead">100일 순수익 1,000만원, 가장 빠른 현금화 경로 3개</div>
-
-      <article class="path-card">
-        <div class="path-rank">경로 #1, 가장 빠름 (0~14일)</div>
-        <div class="path-title">모두의 아이디어 × 정부 공모전</div>
-        <div class="path-meta">
-          <div class="path-meta-item">착수 <span>오늘 밤</span></div>
-          <div class="path-meta-item">마감 <span>4월 15일</span></div>
-          <div class="path-meta-item">수상 시 <span>100~500만원</span></div>
-          <div class="path-meta-item">리스크 <span>낮음</span></div>
+      <section class="surface">
+        <div class="surface-head surface-head--split">
+          <div>
+            <p class="eyebrow">Finish Line</p>
+            <h3>100일 성취 플랜</h3>
+          </div>
+          <p class="surface-caption">시작일 2026.03.28 / 종료일 2026.07.06 기준</p>
         </div>
-        <ul class="path-steps">
-          <li>오늘 밤 21:00~22:40, GLENCI / 노인 카카오택시 / 노인 UI 3건 동시 완성</li>
-          <li>3건 명의 분리로 수상 확률 분산</li>
-          <li>각 아이디어 V-Score 계산 후 가장 강한 것 1번 슬롯 배치</li>
-          <li>AI 에이전트 탭에서 공모전용 분석 프롬프트를 바로 실행</li>
+        <p class="panel-copy">지금 필요한 건 프로젝트 수를 늘리는 게 아니라, 실제 수금으로 이어지는 경로를 먼저 굵게 만드는 것입니다.</p>
+      </section>
+
+      <article class="surface path-card path-card--primary">
+        <div class="path-card__top">
+          <span class="path-rank">경로 1</span>
+          <span class="path-window">2026.03.28 ~ 2026.04.15</span>
+        </div>
+        <h3 class="path-title">모두의 아이디어 공모전 3건 완성</h3>
+        <p class="path-copy">공모전 제출은 가장 빠른 현금화 가능성이 있는 트랙입니다. 오늘 밤 초안을 완성하고, 4월 15일까지 제출 품질을 끌어올리는 흐름으로 갑니다.</p>
+        <ul class="path-list">
+          <li>2026.03.28 밤에 3개 초안 완성</li>
+          <li>2026.03.29에 제목, 문제정의, 기대효과 정리</li>
+          <li>2026.04.05까지 최종 제출본 1차 완성</li>
+          <li>2026.04.15 마감 전 제출</li>
         </ul>
       </article>
 
-      <article class="path-card path2">
-        <div class="path-rank">경로 #2, 빠름 (7~30일)</div>
-        <div class="path-title">규복 삼촌 서브브랜드 홈페이지 + GEO 패키지</div>
-        <div class="path-meta">
-          <div class="path-meta-item">착수 조건 <span>CI 수령 완료</span></div>
-          <div class="path-meta-item">예상 단가 <span>150~300만원</span></div>
-          <div class="path-meta-item">추가 업셀 <span>GEO 분석</span></div>
-          <div class="path-meta-item">리스크 <span>중간</span></div>
+      <article class="surface path-card">
+        <div class="path-card__top">
+          <span class="path-rank">경로 2</span>
+          <span class="path-window">2026.03.28 ~ 2026.04.30</span>
         </div>
-        <ul class="path-steps">
-          <li>CI / SNS 권한 양식 카톡 발송으로 병목 제거</li>
-          <li>홈페이지와 GEO 분석을 패키지 제안으로 묶어 단가 상승</li>
-          <li>기존 분석 경험을 포트폴리오로 재활용</li>
-          <li>완성물을 다음 외주 제안서의 증빙 자료로 전환</li>
+        <h3 class="path-title">규복삼촌 홈페이지와 GEO 패키지 제안</h3>
+        <p class="path-copy">단품 제작이 아니라 홈페이지와 분석 패키지를 함께 제안해 단가를 올립니다. 권한 요청이 병목이라 2026년 3월 28일 바로 발송하는 것이 핵심입니다.</p>
+        <ul class="path-list">
+          <li>2026.03.28 권한 요청 카톡 발송</li>
+          <li>2026.04.02 견적안 확정</li>
+          <li>2026.04.10 선금 협의</li>
+          <li>2026.04.30 납품 목표</li>
         </ul>
       </article>
 
-      <article class="path-card path3">
-        <div class="path-rank">경로 #3, 안정형 (14~45일)</div>
-        <div class="path-title">안양 시장 건 + 비디봇 설문 기반 챗봇 수주</div>
-        <div class="path-meta">
-          <div class="path-meta-item">착수 조건 <span>오늘 전화 답변</span></div>
-          <div class="path-meta-item">예상 단가 <span>50~200만원</span></div>
-          <div class="path-meta-item">반복 가능성 <span>높음</span></div>
-          <div class="path-meta-item">리스크 <span>낮음</span></div>
+      <article class="surface path-card">
+        <div class="path-card__top">
+          <span class="path-rank">경로 3</span>
+          <span class="path-window">2026.03.28 ~ 2026.05.12</span>
         </div>
-        <ul class="path-steps">
-          <li>전화가 오면 범위와 납기를 바로 확정</li>
-          <li>설문 결과에 따라 월 구독형 챗봇 구조 제안</li>
-          <li>N8N 자동화까지 연결해 유지보수 수익화</li>
-          <li>안정화되면 다른 고객군으로 복제</li>
+        <h3 class="path-title">안양 시장 건과 비디봇 설문 기반 챗봇 수주</h3>
+        <p class="path-copy">이미 관계가 있는 일부터 바로 범위와 납기를 확정해서 안정적인 매출 흐름을 만듭니다. 단발성 개발보다 유지보수와 자동화까지 묶어야 반복 수익이 됩니다.</p>
+        <ul class="path-list">
+          <li>2026.03.28 전화 응답 시 범위 확정</li>
+          <li>2026.03.29 비디봇 답변 체크</li>
+          <li>2026.04.12 제안서 확정</li>
+          <li>2026.05.12까지 1차 납품 또는 계약화</li>
         </ul>
       </article>
 
-      <hr class="divider">
-
-      <section class="warning-box">
-        <div class="path-rank">경고, 지금 이 구조로는 1,000만원이 어려운 이유</div>
-        <div class="warning-copy">
-          현재 확정 수익: <strong class="warning-strong">₩0</strong><br>
-          30일 내 현금이 도는 프로젝트는 제한적이고, 착수부터 수금까지 시간이 길다.<br><br>
-          <strong>필요한 구조 변화 2가지</strong><br>
-          1. 단가를 올려라. 같은 시간을 써도 결과 금액이 달라져야 한다.<br>
-          2. 선금을 받아라. 착수 전 50% 선금이 없으면 일정이 무너진다.
+      <section class="surface surface-warn">
+        <div class="surface-head">
+          <p class="eyebrow">Reality Check</p>
+          <h3>지금 반드시 바꿔야 하는 기준</h3>
         </div>
+        <ul class="rule-list rule-list--tight">
+          <li>단가가 낮은 일은 시간만 쓰고 목표 수익에서 멀어진다.</li>
+          <li>착수 전 50% 선금 기준이 없으면 일정이 흔들린다.</li>
+          <li>법적 일정은 프로젝트보다 우선해서 실제 날짜로 추적한다.</li>
+        </ul>
       </section>
     </section>
 
     <section class="panel" id="panel-agent">
-      <div class="agent-context">
-        컨텍스트 로드됨: 강호수 프로젝트 31개 | 100일 목표 ₩10,000,000 | 블루프린트 12 모드 활성
-      </div>
+      <section class="surface">
+        <div class="surface-head surface-head--split">
+          <div>
+            <p class="eyebrow">Execution Coach</p>
+            <h3>AI 코치</h3>
+          </div>
+          <p class="surface-caption">로컬 응답 모드 / 추후 API 연결 가능</p>
+        </div>
+        <p class="panel-copy">오늘 우선순위, 제안 문구, 체크리스트, 일정 정리를 빠르게 정리해주는 코치입니다.</p>
+      </section>
 
       <div class="quick-btns">
-        <button class="quick-btn" type="button" data-quick="모두의 아이디어 GLENCI 블루프린트 12 분석해줘">GLENCI 분석</button>
-        <button class="quick-btn" type="button" data-quick="규복삼촌 홈페이지 GEO 패키지 단가 설계해줘">단가 설계</button>
-        <button class="quick-btn" type="button" data-quick="알레스카 재협의 문자 초안 써줘">알레스카 문자</button>
-        <button class="quick-btn" type="button" data-quick="오늘 집중해야 할 것 3개만 뽑아줘">오늘 TOP3</button>
-        <button class="quick-btn" type="button" data-quick="N8N으로 내 업무 자동화 설계해줘">N8N 설계</button>
-        <button class="quick-btn" type="button" data-quick="농업재단 8월 마감 체크리스트 만들어줘">농업 체크리스트</button>
+        <button class="quick-btn" type="button" data-quick="오늘 우선순위 3개만 정리해줘">오늘 우선순위</button>
+        <button class="quick-btn" type="button" data-quick="규복삼촌 패키지 단가 구조를 정리해줘">패키지 단가</button>
+        <button class="quick-btn" type="button" data-quick="알레스카 재협의 문자를 써줘">재협의 문자</button>
+        <button class="quick-btn" type="button" data-quick="2026년 4월 15일 공모전 제출 체크리스트 만들어줘">공모전 체크리스트</button>
+        <button class="quick-btn" type="button" data-quick="N8N 자동화 첫 번째 상품 구조를 잡아줘">N8N 상품 구조</button>
+        <button class="quick-btn" type="button" data-quick="농업재단 관련 실제 날짜 체크 포인트를 정리해줘">법적 일정 정리</button>
       </div>
 
       <div class="agent-wrap">
         <div class="agent-messages" id="agentMessages">
-          <div class="msg">
+          <div class="msg ai">
             <div class="msg-avatar ai">AI</div>
-            <div class="msg-content">
-커맨드센터 가동됨.
+            <div class="msg-content">2026년 3월 28일 기준 실행 보드를 읽었습니다.
 
-컨텍스트 로드 완료: 프로젝트 31개, 법적 리스크 4건, 100일 데드라인.
-
-지금 버전은 브라우저 안에서 돌아가는 로컬 에이전트다. 사업 분석, 문자 초안, 우선순위 정리, 체크리스트는 바로 응답하고, 실제 LLM API 연동은 다음 단계에서 서버 붙이면 된다.
-            </div>
+지금 버전은 브라우저 안에서 돌아가는 로컬 코치입니다. 오늘 우선순위, 제안 문구, 체크리스트, 수익 경로 정리 같은 실행형 답변에 집중합니다.</div>
           </div>
         </div>
 
         <div class="agent-input-row">
-          <textarea class="agent-input" id="agentInput" placeholder="질문 입력... (Shift+Enter = 줄바꿈, Enter = 전송)" rows="2"></textarea>
-          <button class="agent-send" id="agentSend" type="button">전송</button>
+          <textarea class="agent-input" id="agentInput" rows="2" placeholder="질문 입력... (Shift+Enter 줄바꿈 / Enter 전송)"></textarea>
+          <button class="agent-send" id="agentSend" type="button">보내기</button>
         </div>
       </div>
     </section>
